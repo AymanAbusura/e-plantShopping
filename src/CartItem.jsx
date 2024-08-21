@@ -8,21 +8,17 @@ const CartItem = ({ onContinueShopping }) => {
   const dispatch = useDispatch();
 
   // Calculate total amount for all products in the cart
-  const calculateTotalAmount = () => {
-    return cart.reduce((total, item) => {
-        const itemCost = parseFloat(item.cost) || 0;  // Ensure cost is a valid number
-        const itemQuantity = parseInt(item.quantity, 10) || 0;  // Ensure quantity is a valid number
-        return total + itemCost * itemQuantity;
-    }, 0).toFixed(2);  // Start total at 0 and format to 2 decimal places
-};
-
+    const calculateTotalAmount = () => {
+        return cart.reduce((total, item) => {
+            const itemCost = parseFloat(item.cost.replace('$', ''));
+            return total + itemCost * item.quantity;
+        }, 0).toFixed(2);
+    };
 
   const handleContinueShopping = (e) => {
-    // onContinueShopping(); // Calls parent function to redirect to the product list
-    window.location.href = '/shoppingreact/plant-listing';
+    onContinueShopping(window.location.href = '/shoppingreact/'); // Calls parent function to redirect to the product list
+    // window.location.href = '/shoppingreact/plant-listing';
   };
-
-
 
   const handleIncrement = (item) => {
     dispatch(updateQuantity({ name: item.name, quantity: item.quantity + 1 }));
@@ -42,7 +38,8 @@ const CartItem = ({ onContinueShopping }) => {
 
   // Calculate total cost based on quantity for an item
   const calculateTotalCost = (item) => {
-    return (item.cost * item.quantity).toFixed(2);
+    const itemCost = parseFloat(item.cost.replace('$', '')); // Removing dollar sign and converting to number
+    return (itemCost * item.quantity).toFixed(2);
   };
 
   const handleCheckoutShopping = (e) => {
