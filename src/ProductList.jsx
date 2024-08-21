@@ -301,15 +301,18 @@ const handleContinueShopping = (e) => {
                 <div className="product-grid">
                     {plantsArray.map((category, catIndex) => (
                         <div key={catIndex}>
-                            <h2>{category.category}</h2>
-                            <div className="product-grid">
+                            <div style={{ display: 'flex', justifyContent: 'center', margin: '10px', padding: '10px' }}>
+                                <h2 style={{ borderTop: 'solid', borderBottom: 'solid' }}>{category.category}</h2>
+                            </div>
+                            <div className="product-list">
                                 {category.plants.map((plant, index) => (
                                     <div key={index} className="product-card">
+                                        <div className="product-title">{plant.name}</div>
                                         <img src={plant.image} alt={plant.name} className="product-image" />
-                                        <h3>{plant.name}</h3>
-                                        <p>{plant.description}</p>
-                                        <p>Cost: {plant.cost}</p>
+                                        <div className="product-title">{plant.description}</div>
+                                        <div className="product-price">Cost: {plant.cost}</div>
                                         <button 
+                                            className={`product-button ${addedToCart[plant.name] ? 'added-to-cart' : ''}`}
                                             onClick={() => handleAddToCart(plant)}
                                             disabled={addedToCart[plant.name]}
                                         >

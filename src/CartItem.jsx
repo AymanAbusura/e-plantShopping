@@ -9,8 +9,13 @@ const CartItem = ({ onContinueShopping }) => {
 
   // Calculate total amount for all products in the cart
   const calculateTotalAmount = () => {
-    return cart.reduce((total, item) => total + item.cost * item.quantity, 0).toFixed(2);
-  };
+    return cart.reduce((total, item) => {
+        const itemCost = parseFloat(item.cost) || 0;  // Ensure cost is a valid number
+        const itemQuantity = parseInt(item.quantity, 10) || 0;  // Ensure quantity is a valid number
+        return total + itemCost * itemQuantity;
+    }, 0).toFixed(2);  // Start total at 0 and format to 2 decimal places
+};
+
 
   const handleContinueShopping = (e) => {
     // onContinueShopping(); // Calls parent function to redirect to the product list
